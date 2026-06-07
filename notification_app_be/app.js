@@ -1,13 +1,35 @@
-const express = require("express");
+const Log = require("../logging_middleware/logger");
 
-const app = express();
+async function run() {
 
-app.get("/", (req, res) => {
-    res.json({
-        message: "Campus Notification Running"
-    });
-});
+  await Log(
+    "backend",
+    "info",
+    "service",
+    "Notification service started"
+  );
 
-app.listen(3000, () => {
-    console.log("Server started");
-});
+  await Log(
+    "backend",
+    "debug",
+    "handler",
+    "Processing notification request"
+  );
+
+  await Log(
+    "backend",
+    "warn",
+    "middleware",
+    "Rate limit nearing threshold"
+  );
+
+  await Log(
+    "backend",
+    "error",
+    "handler",
+    "Invalid email address received"
+  );
+
+}
+
+run();
