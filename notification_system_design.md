@@ -1,4 +1,4 @@
-# Stage 1
+# Phase I
 
 ## REST APIs
 
@@ -15,7 +15,7 @@ Response:
 }
 ```
 
-### Mark Notification Read
+### Mark Read Notification
 
 PATCH /api/v1/notifications/{id}/read
 
@@ -23,21 +23,21 @@ PATCH /api/v1/notifications/{id}/read
 
 DELETE /api/v1/notifications/{id}
 
-### Real-Time Notification Mechanism
+### Push Notification Service
 
-WebSocket will be used to push notifications instantly to connected students.
+WebSocket will be used to send notifications to connected students instantly.
 
-# Stage 2
+# Phase II
 
-## Database Choice
+## Database Selection
 
-PostgreSQL
+Postgres
 
 Reasons:
 
-* ACID compliance
-* Reliability
-* Index support
+* ACID compliant
+* Trustworthiness
+* Indexing  support
 * Scalability
 
 ### Notifications Table
@@ -53,7 +53,7 @@ CREATE TABLE notifications (
 );
 ```
 
-# Stage 3
+# Phase III
 
 Slow Query:
 
@@ -76,7 +76,7 @@ CREATE INDEX idx_student_read_created
 ON notifications(student_id, is_read, created_at DESC);
 ```
 
-Placement Notifications in Last 7 Days:
+Notifications on Last 7 Days Placement:
 
 ```sql
 SELECT DISTINCT student_id
@@ -85,29 +85,29 @@ WHERE notification_type='Placement'
 AND created_at >= NOW() - INTERVAL '7 days';
 ```
 
-# Stage 4
+# Phase IV
 
-Performance Improvements:
+Performance Enhancements:
 
 * Redis Cache
 * Pagination
-* WebSocket Push
-* Read Replicas
+* Push WebSocket 
+* Reproductions Read 
 
-# Stage 5
+# Phase V
 
 Problems:
 
 * Sequential processing
-* Slow execution
+* Running slowly
 * No retry mechanism
-* Failure handling missing
+* Missing failure handling
 
 Solution:
 
 * Use Kafka or RabbitMQ
-* Queue-based processing
-* Retry failed emails
+* Processing based on queues
+* Resend failed emails
 
 Pseudo-code:
 
@@ -124,7 +124,7 @@ send_email()
 push_notification()
 ```
 
-# Stage 6
+# Phase VI
 
 Priority Order:
 
@@ -132,7 +132,7 @@ Placement > Result > Event
 
 Weights:
 
-* Placement = 3
+* Placement = 3rd
 * Result = 2
 * Event = 1
 
